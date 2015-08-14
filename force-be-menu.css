@@ -1,0 +1,45 @@
+.node {
+    stroke-width: 1.5px;
+    transition-duration: 200ms;
+}
+
+.node:hover {
+    fill: #ffffff!important;
+}
+
+.node:active {
+    fill: #aaaaaa!important;
+}
+
+.link {
+    stroke-dasharray: 5, 5;
+    stroke-opacity: .6;
+}
+
+.text {
+    font-family: sans-serif;
+}
+
+body {
+
+}
+
+svg {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000000;
+}
+
+.svg-container {
+    background-color: #999999;
+    opacity: 0.9;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10000;
+}
