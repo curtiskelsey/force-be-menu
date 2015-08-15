@@ -31,14 +31,12 @@ var ForceMenu = function(navigationData, options) {
             'rootRadius': diagonal/20,
             'lineStrokeColor': '#666666',
             'lineStrokeWidth': '1px',
-            'lineDistance': diagonal/5,
+            'lineDistance': diagonal/6,
             'textStrokeColor': '#000000',
             'textSize': '',
             'container': 'body'
         };
 
-    // Create an object with functions that mimic the window.console object made
-    // available by tools like Firebug or the "Dev Tools" add-on in IE8+
     _log.dummyConsole = {
         assert : function(){},
         log : function(){},
@@ -49,17 +47,9 @@ var ForceMenu = function(navigationData, options) {
         info : function(){}
     };
 
-    // Throughout our app we'll make console/logging calls by using the myapp.console
-    // object. Example: myapp.console.debug("blerg!"). By default, the myapp.console
-    // object should use the "dummy" console that doesn't do anything.
     _log.console = _log.dummyConsole;
 
-    // This function can be used to switch the myapp.console variable to use the
-    // real window.console object. Note that it does a safety check to ensure that
-    // window.console actually exists (it won't in browsers not running Firebug or
-    // the IE dev tools).
     _log.enableConsoleOutput = function(enable) {
-        // Don't enable the console unless it actually exists
         if (enable && window.console !== undefined) {
             _log.console = window.console;
         } else {
@@ -89,7 +79,7 @@ var ForceMenu = function(navigationData, options) {
         }
 
         maxNameLength = d3.max(_dataSet.nodes, function(d){ return d.name.length; });
-        _options.textSize = diagonal/(10 * (maxNameLength/1.5));
+        _options.textSize = diagonal/(10 * maxNameLength);
 
         constructLinks();
 
@@ -101,12 +91,27 @@ var ForceMenu = function(navigationData, options) {
     }
 
     /**
+     * TODO: Handle resize events
+     */
+    function resize() {
+
+    }
+
+    /**
      * Determine if the argument provided is a selector or an array of JSON objects
      */
     function detectDataType() {
 
         if (typeof navigationData[0] == 'undefined') {
             return 'dataset';
+        }
+
+        // check if it is a jQuery selection
+        if (navigationData[0] instanceof Element) {
+
+            _log.console.debug('The constructor data is a jQuery selector.');
+            navigationData = d3.selectAll(navigationData.toArray());
+            return 'element';
         }
 
         if (typeof navigationData[0][0] == 'undefined') {
@@ -127,21 +132,22 @@ var ForceMenu = function(navigationData, options) {
 
         _log.console.debug("Converting element selector to data set...");
 
-        var navigationItems = _dataSet.getElementsByTagName("a");
+        var navigationItems = navigationData.selectAll("a");
         _log.console.debug(navigationItems);
 
         var tempDataSet = [];
 
-        navigationItems.each(function(d, i){
 
-            _log.console.debug(d);
-            _log.console.debug(i);
-            _log.console.debug(navigationItems[i]);
+        for (var i = 0; i < navigationItems[0].length; i++) {
 
-            //tempDataSet.push({"name":d.text(),"group":1,"url":d.attr("href")});
-        });
+            _log.console.debug(d3.select(navigationItems[0][i]).text());
 
-        _dataSet = tempDataSet;
+            var item = d3.select(navigationItems[0][i]);
+
+            tempDataSet.push({"name":item.text(),"group":1,"url":item.attr("href")});
+        }
+
+        _dataSet.nodes = tempDataSet;
     }
 
     /**
