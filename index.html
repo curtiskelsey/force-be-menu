@@ -2,35 +2,28 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
     <script src="force-be-menu.js"></script>
     <link type="text/css" rel="stylesheet" href="force-be-menu.css"/>
     <link type="text/css" rel="stylesheet" href="http://cdn.foundation5.zurb.com/foundation.css"/>
-    <title>My page</title>
+    <title>Current Page</title>
 </head>
 <body>
 <div id="body">
-
-
     <div class="row">
         <div class="large-3 columns">
             <h1><img src="http://placehold.it/400x100&text=Logo"></h1>
         </div>
         <div class="large-9 columns">
-            <ul class="button-group right">
-                <li><a href="#" class="button">Link 1</a></li>
-                <li><a href="#" class="button">Link 2</a></li>
-                <li><a href="#" class="button">Link 3</a></li>
-                <li><a href="#" class="button">Link 4</a></li>
+            <ul class="button-group right" id="mainnavigation">
+                <li><a id="link1" href="#link1" class="button">Link 1</a></li>
+                <li><a id="link2" href="#link2" class="button">Link 2</a></li>
+                <li><a id="link3" href="#link3" class="button">Link 3</a></li>
+                <li><a id="link4" href="#link4" class="button">Link 4</a></li>
             </ul>
         </div>
     </div>
-
-
-
-
-
-
     <div class="row">
         <div class="large-12 columns">
             <img src="http://placehold.it/1000x400&text=[img]">
@@ -38,17 +31,15 @@
             <hr>
         </div>
     </div>
-
-
     <div class="row">
         <div class="large-4 columns">
             <img src="http://placehold.it/400x300&text=[img]">
         </div>
         <div class="large-8 columns">
-            <h4>This is a content section.</h4>
+            <h4>Congratulations, you found a really cool alternative to your standard, boring menus.</h4>
             <div class="row">
                 <div class="large-6 columns">
-                    <p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit, dolore aliqua non est magna in labore pig pork biltong. Eiusmod swine spare ribs reprehenderit culpa. Boudin aliqua adipisicing rump corned beef.</p>
+                    <p>Today's application navigation typically employs lists of links, possibly nested</p>
                 </div>
                 <div class="large-6 columns">
                     <p>Pork drumstick turkey fugiat. Tri-tip elit turducken pork chop in. Swine short ribs meatball irure bacon nulla pork belly cupidatat meatloaf cow. Nulla corned beef sunt ball tip, qui bresaola enim jowl. Capicola short ribs minim salami nulla nostrud pastrami.</p>
@@ -56,13 +47,9 @@
             </div>
         </div>
     </div>
-
-
-
-
     <div class="row">
         <div class="large-8 columns">
-            <h4>This is a content section.</h4>
+            <h4>Built with the power of d3.js</h4>
 
             <p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit, dolore aliqua non est magna in labore pig pork biltong. Eiusmod swine spare ribs reprehenderit culpa. Boudin aliqua adipisicing rump corned beef.</p>
 
@@ -73,15 +60,12 @@
             <img src="http://placehold.it/400x300&text=[img]">
         </div>
     </div>
-
-
-
     <footer class="row">
         <div class="large-12 columns">
             <hr/>
             <div class="row">
                 <div class="large-6 columns">
-                    <p>© Copyright no one at all. Go to town.</p>
+                    <p>©2015 Crush Enterprises</p>
                 </div>
                 <div class="large-6 columns">
                     <ul class="inline-list right">
@@ -94,28 +78,42 @@
             </div>
         </div>
     </footer>
-
 </div>
 <script type="text/javascript">
 
     var graph = {
         "nodes":[
-            {"name":"Myriel","group":1,"url":"http://google.com"},
-            {"name":"Napoleon","group":1,"url":"http://google.com"},
-            {"name":"Test","group":1,"url":"http://google.com"},
-            {"name":"Test2","group":1,"url":"http://google.com"},
-            {"name":"M","group":1,"url":"http://google.com"}
+            {"name":"Milky Way","group":1,"url":"http://google.com"},
+            {"name":"Snickers","group":1,"url":"http://google.com"},
+            {"name":"Skittles","group":1,"url":"http://google.com"},
+            {"name":"Twix","group":1,"url":"http://google.com"},
+            {"name":"Milk Duds","group":1,"url":"http://google.com"}
         ]
     };
 
-    console.log(document.getElementById("mainnavigation"));
-    var navigation = d3.select(document.getElementById("mainnavigation"));
+    console.log(jQuery("#mainnavigation"));
+    var navigation = jQuery("#mainnavigation");
+    navigation.hide();
 
-    var forceMenu = new ForceMenu(graph);
+    var forceMenu = new ForceMenu(jQuery("#mainnavigation"));
+    var forceMenu2 = new ForceMenu(d3.select("#mainnavigation"));
+    var forceMenu3 = new ForceMenu(graph);
 
-    d3.selectAll(".button").on("click", function(e){
+    navigation.html("<a href='#' class='button' id='jQueryDemo'>jQuery Selector</a><a href='#' class='button' id='d3Demo'>d3 Selector</a><a href='#' class='button' id='dataSetDemo'>Data Set</a>");
+
+    d3.select("#jQueryDemo").on("click", function(e){
        forceMenu.show();
     });
+
+    d3.select("#d3Demo").on("click", function(e){
+        forceMenu2.show();
+    });
+
+    d3.select("#dataSetDemo").on("click", function(e){
+        forceMenu3.show();
+    });
+
+    navigation.show();
 </script>
 </body>
 </html>
